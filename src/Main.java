@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.Map;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,23 +26,15 @@ public class Main {
         Queue q = new Queue();
         q.enqueue(10);
         q.enqueue(20);
-        q.dequeue();
-        q.dequeue();
         q.enqueue(30);
-        q.enqueue(40);
-        q.enqueue(50);
         q.dequeue();
-        System.out.println("Queue Front : " + q.front.data);
-        System.out.println("Queue Rear : " + q.rear.data);
-
-        MyMap<Integer, String> map = new MyMap<>();
-        map.put(1, "Hoa");
-        map.put(2, "Lan");
-        map.put(3, "Lan");
-        System.out.println(map.size());
-        System.out.println(map.get(2));
-        map.remove(3);
-        System.out.println(map.size());
+        q.dequeue();
+        q.dequeue();
+        System.out.println("Queue Front : " + q.front);
+        System.out.println("Queue Rear : " + q.rear);
 
     }
+
+
+
 }

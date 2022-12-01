@@ -17,7 +17,7 @@ public class Stack {
         }
         System.out.println("Inserting " + x);
         temp.data= x;
-        temp.next = top;
+        temp.previous = top;
         top = temp;
         this.nodesCount +=1;
     }
@@ -40,7 +40,7 @@ public class Stack {
         int top = peek();
         System.out.println("Removing "+ top);
         this.nodesCount -= 1;
-        this.top =(this.top).next;
+        this.top =(this.top).previous;
 
         return top;
     }

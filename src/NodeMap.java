@@ -2,11 +2,13 @@ public class NodeMap<K,V> {
     private K key;
     private V value;
     private NodeMap<K,V> next;
+    private int hashCode;
 
-    public NodeMap(K key, V value, NodeMap<K, V> next) {
+    public NodeMap(K key, V value, NodeMap<K, V> next, int hashCode) {
         this.key = key;
         this.value = value;
         this.next = next;
+        this.hashCode = hashCode;
     }
 
     public NodeMap(K key, V value) {
@@ -36,5 +38,13 @@ public class NodeMap<K,V> {
 
     public void setNext(NodeMap<K, V> next) {
         this.next = next;
+    }
+
+    public int getHashCode() {
+        return hashCode;
+    }
+
+    public void setHashCode(int hashCode) {
+        this.hashCode = hashCode;
     }
 }
