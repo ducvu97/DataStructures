@@ -1,6 +1,6 @@
 public class MyMap<K, V> {
 
-    private int CAPACITY = 16;
+    private int CAPACITY = 8;
     private NodeMap<K, V>[] table;
 
     private int size = 0;
@@ -15,7 +15,6 @@ public class MyMap<K, V> {
     }
 
     public void put(K key, V value) {
-        NodeMap<K, V> node = new NodeMap<>(key, value);
         int index = index(key);
         NodeMap<K, V> newNode = new NodeMap<>(key, value, null);
         if (table[index] == null) {
@@ -41,46 +40,53 @@ public class MyMap<K, V> {
     public V get(K key) {
         V value = null;
         int index = index(key);
-        NodeMap<K, V> nodeMap = table[index];
-        while (nodeMap != null) {
-            if (nodeMap.getKey().equals(key)) {
-                value = nodeMap.getValue();
+        NodeMap<K, V> nodeFirst = table[index];
+        while (nodeFirst != null) {
+            if (nodeFirst.getKey().equals(key)) {
+                value = nodeFirst.getValue();
             }
-            nodeMap = nodeMap.getNext();
+            nodeFirst = nodeFirst.getNext();
         }
+        System.out.println("Value :" +value);
         return value;
     }
 
     public void remove(K key) {
         int index = index(key);
         NodeMap<K, V> previous = null;
-        NodeMap<K, V> nodeMap = table[index];
-        while (nodeMap != null) {
-            if (nodeMap.getKey().equals(key)) {
+        NodeMap<K, V> nodeFirst = table[index];
+        while (nodeFirst != null) {
+            if (nodeFirst.getKey().equals(key)) {
                 if (previous == null) {
-                    nodeMap = nodeMap.getNext();
-                    table[index] = nodeMap;
+                    nodeFirst = nodeFirst.getNext();
+                    table[index] = nodeFirst;
                     return;
                 } else {
-                    previous.setNext(nodeMap.getNext());
+                    previous.setNext(nodeFirst.getNext());
                     return;
                 }
             }
-            previous = nodeMap;
-            nodeMap = nodeMap.getNext();
+            previous = nodeFirst;
+            nodeFirst = nodeFirst.getNext();
             size--;
         }
     }
 
-    public void display() {
-        for (int i = 0; i < CAPACITY; i++) {
-            if (table[i] != null) {
-                NodeMap<K, V> currentNode = table[i];
-                while (currentNode != null) {
-                    System.out.println(String.format("Key is %s and value is %s", currentNode.getKey(), currentNode.getValue()));
-                    currentNode = currentNode.getNext();
+    public void display() throws NullPointerException {
+        for (NodeMap<K, V> element : table) {
+            if (element == null) {
+                System.out.println("null");
+                continue;
+            }
+            System.out.print("key: "+element.getKey()+"Value: "+element.getValue());
+            while (element.getNext() != null) {
+                element = element.getNext();
+                System.out.print("," + "key: "+element.getKey()+"Value: "+element.getValue());
+                if (element == null) {
+                    break;
                 }
             }
+            System.out.print("\n");
         }
     }
 
@@ -88,7 +94,7 @@ public class MyMap<K, V> {
         if (key == null) {
             return 0;
         }
-        return Math.abs(key.hashCode() % CAPACITY);
+        return key.hashCode() & (CAPACITY-1);
     }
 
 
